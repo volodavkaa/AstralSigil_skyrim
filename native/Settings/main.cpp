@@ -254,7 +254,7 @@ void Message(SKSE::MessagingInterface::Message* event){
 }
 }
 extern "C" __declspec(dllexport) constinit SKSE::PluginVersionData SKSEPlugin_Version=[] {
-    SKSE::PluginVersionData data;data.PluginVersion(REL::Version(2,4,3,0));data.PluginName("AstralSigilSettings");data.UsesAddressLibrary();data.UsesUpdatedStructs();
+    SKSE::PluginVersionData data;data.PluginVersion(REL::Version(2,4,5,0));data.PluginName("AstralSigilSettings");data.UsesAddressLibrary();data.UsesUpdatedStructs();
     for(std::size_t i=0;i<Portal::Runtime::Candidates.size();++i){const auto& v=Portal::Runtime::Candidates[i];data.compatibleVersions[i]=REL::Version(v[0],v[1],v[2],v[3]).pack();}return data;
 }();
 extern "C" __declspec(dllexport) bool SKSEPlugin_Query(const SKSE::QueryInterface* skse,SKSE::PluginInfo* info){

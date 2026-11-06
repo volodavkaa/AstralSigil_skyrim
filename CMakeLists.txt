@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(AstralSigil VERSION 2.4.4 LANGUAGES CXX)
+project(AstralSigil VERSION 2.4.5 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 include(FetchContent)
 option(ASTRAL_LEGACY_SE1597 "Build only the legacy SE 1.5.97 portal" OFF)
