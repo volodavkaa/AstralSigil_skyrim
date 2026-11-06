@@ -1,0 +1,117 @@
+{
+  "candidates": [
+    [
+      1,
+      5,
+      97,
+      0
+    ],
+    [
+      1,
+      6,
+      317,
+      0
+    ],
+    [
+      1,
+      6,
+      318,
+      0
+    ],
+    [
+      1,
+      6,
+      323,
+      0
+    ],
+    [
+      1,
+      6,
+      342,
+      0
+    ],
+    [
+      1,
+      6,
+      353,
+      0
+    ],
+    [
+      1,
+      6,
+      629,
+      0
+    ],
+    [
+      1,
+      6,
+      640,
+      0
+    ],
+    [
+      1,
+      6,
+      659,
+      1
+    ],
+    [
+      1,
+      6,
+      1130,
+      0
+    ],
+    [
+      1,
+      6,
+      1170,
+      0
+    ],
+    [
+      1,
+      6,
+      1170,
+      1
+    ],
+    [
+      1,
+      6,
+      1179,
+      1
+    ],
+    [
+      1,
+      7,
+      99,
+      0
+    ],
+    [
+      1,
+      7,
+      104,
+      0
+    ]
+  ],
+  "gameplay_acceptance": "SE 1.5.97 tested; gameplay on other listed runtimes remains unverified",
+  "dependencies": {
+    "commonlibsse-ng-multiruntime": {
+      "commit": "cce63b4c8aacd2766c21f44b408df92a3ad9e95c",
+      "origin": "https://github.com/alandtse/CommonLibSSE-NG.git",
+      "changes": ""
+    },
+    "directxtk": {
+      "commit": "861f3e7df437b50d1f28c964769329e9b23a50fb",
+      "origin": "https://github.com/microsoft/DirectXTK.git",
+      "changes": ""
+    },
+    "spdlog": {
+      "commit": "6fa36017cfd5731d617e1a934f0e5ea9c4445b13",
+      "origin": "https://github.com/gabime/spdlog.git",
+      "changes": ""
+    },
+    "rapidcsv": {
+      "commit": "3c8131af7596329c50380ef3f8975e45742b1d60",
+      "origin": "https://github.com/d99kris/rapidcsv.git",
+      "changes": ""
+    }
+  }
+}

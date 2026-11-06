@@ -1,4 +1,7 @@
-build/
+build*/
 .vs/
 *.user
 *.log
+*.dll
+*.pdb
+*.zip

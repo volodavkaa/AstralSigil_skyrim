@@ -14,5 +14,9 @@
   "rapidcsv": {
     "url": "https://github.com/d99kris/rapidcsv.git",
     "commit": "3c8131af7596329c50380ef3f8975e45742b1d60"
+  },
+  "commonlibsse-ng-se": {
+    "url": "https://github.com/CharmedBaryon/CommonLibSSE-NG.git",
+    "commit": "b93280e832f263dbef44e44cbe2936622a02f91a"
   }
 }

@@ -1,16 +1,6 @@
-# Astral Sigil
+# Astral Sigil native modules
 
-Stormheart and Cinderfang staves for Skyrim Special Edition, with animated casting circles, crystal projectiles and elemental impacts.
-
-Install the FOMOD ZIP through your mod manager. Choose Lite, Full for SE 1.5.97, or the Full NG11 test build for SE/AE. Textures are available in 2K and 4K; quest objectives are optional.
-
-Full requires matching SKSE, Address Library and Open Animation Replacer. NG11 targets selected Steam/GOG runtimes through 1.7.104; cross-version gameplay testing is pending. LE and VR are excluded.
-
-To find the staves, read **Strange Lights** at the Sleeping Giant Inn in Riverwood, then search Brittleshin Pass. Bring the crafting plans and materials to a forge.
-
-## Build
-
-Windows x64, Visual Studio 2022 C++ tools, CMake 3.24+ and Git are required. CMake retrieves pinned source dependencies.
+C++ source for AstralSigilPortal.dll and AstralSigilSettings.dll, shipped with Astral Sigil 2.4.4. Requires Windows x64, Visual Studio 2022 C++ tools, a Windows SDK, Git and CMake 3.24+. CMake fetches pinned source dependencies; bundled corresponding-source archives also build offline.
 
 ```powershell
 cmake -S . -B build -A x64
@@ -18,4 +8,6 @@ cmake --build build --config Release --parallel 6
 ctest --test-dir build -C Release --output-on-failure
 ```
 
-The native output is `build/Release/AstralSigilPortal.dll`. Install it over the Full edition. Third-party licenses and corresponding library source accompany the release.
+Outputs are in `build/Release`. The default builds the SE/AE portal and settings modules. For the separate SE 1.5.97 portal only, configure another directory with `-DASTRAL_LEGACY_SE1597=ON`. Install the matching portal DLL; settings are shared by both Full selections. Supported runtimes are listed in runtime-policy.json; gameplay on every listed runtime is unverified.
+
+Third-person crosshair alignment in the OmenRim camera setup remains under investigation. This repository contains native source and tests; mod assets and the FOMOD are distributed separately. License terms are in LICENSE, EXCEPTIONS.md and THIRD-PARTY-NOTICES.txt.
