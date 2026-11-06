@@ -9,16 +9,16 @@ namespace Transformation {
 namespace {
 using Clock=std::chrono::steady_clock;
 struct Item {std::uint32_t form=0,owner=0,uid=0;bool operator==(const Item&)const=default;};
-struct Pair {Item staff,melee[2],left;std::uint32_t variant=0,restoreLeft=0;};
+struct Pair {Item staff,mace,reservedMelee,reservedLeft;std::uint32_t variant=0,reservedFlags=0;};
+static_assert(sizeof(Pair)==56); // Preserve the existing co-save record layout.
 std::vector<Pair> pairs;
 RE::TESObjectWEAP* staves[2]{};
-RE::TESObjectWEAP* melee[2][2]{};
+RE::TESObjectWEAP* maces[2]{};
 RE::TESGlobal *key=nullptr,*gripState=nullptr;
-RE::BGSEquipSlot *rightSlot=nullptr,*leftSlot=nullptr;
+RE::BGSEquipSlot *rightSlot=nullptr;
 enum class Phase {Idle,Equip,Catch};
 struct Transition {Phase phase=Phase::Idle;Item source,target;std::size_t pair=0;bool returning=false,drawn=false;Clock::time_point deadline{},drawnAt{};std::uint32_t leftForm=0;} change;
 Clock::time_point lastRequest{};
-bool legacyAttempted=false;
 
 RE::ExtraDataList* Find(RE::PlayerCharacter* player,const Item& item){
     auto* object=RE::TESForm::LookupByID<RE::TESBoundObject>(item.form);if(!object)return nullptr;
@@ -62,17 +62,6 @@ bool Busy(RE::PlayerCharacter* player){
     }
     return false;
 }
-void RestoreLeft(RE::PlayerCharacter* player,Pair& pair){
-    bool restore=pair.restoreLeft!=0;pair.restoreLeft=0;
-    if(!restore||!pair.left.form||player->GetEquippedObject(true))return;
-    auto* form=RE::TESForm::LookupByID(pair.left.form);if(!form)return;
-    auto* equip=RE::ActorEquipManager::GetSingleton();
-    if(auto* spell=form->As<RE::SpellItem>()){
-        if(player->HasSpell(spell))equip->EquipSpell(player,spell,leftSlot);
-    }else if(auto* object=form->As<RE::TESBoundObject>()){
-        if(auto* list=Find(player,pair.left))equip->EquipObject(player,object,list,1,leftSlot,true,false,false);
-    }
-}
 void Fail(const char* reason){if(gripState)gripState->value=0;SKSE::log::warn("Transformation aborted: {}",reason);change={};}
 struct Input final:RE::BSTEventSink<RE::InputEvent*>{
     RE::BSEventNotifyControl ProcessEvent(RE::InputEvent* const* events,RE::BSTEventSource<RE::InputEvent*>*)override{
@@ -83,16 +72,6 @@ struct Input final:RE::BSTEventSink<RE::InputEvent*>{
         return RE::BSEventNotifyControl::kContinue;
     }
 } input;
-struct Equipment final:RE::BSTEventSink<RE::TESEquipEvent>{
-    RE::BSEventNotifyControl ProcessEvent(const RE::TESEquipEvent* event,RE::BSTEventSource<RE::TESEquipEvent>*)override{
-        if(!event||event->actor.get()!=RE::PlayerCharacter::GetSingleton()||!event->equipped||change.phase!=Phase::Idle)return RE::BSEventNotifyControl::kContinue;
-        // A manual equipment change invalidates automatic left-hand restoration.
-        for(auto& pair:pairs)if(pair.restoreLeft){
-            if(event->baseObject!=pair.melee[1].form)pair.restoreLeft=0;
-        }
-        return RE::BSEventNotifyControl::kContinue;
-    }
-} equipment;
 void Save(SKSE::SerializationInterface* serial){
     for(const auto& pair:pairs)serial->WriteRecord(0x50414952,1,pair);
 }
@@ -106,14 +85,14 @@ void Load(SKSE::SerializationInterface* serial){
     while(serial->GetNextRecordInfo(type,version,length)){
         if(type!=0x50414952||version!=1||length!=sizeof(Pair))continue;
         Pair pair{};if(serial->ReadRecordData(pair)!=sizeof(pair))continue;
-        if(pair.variant>1||pairs.size()>=64||!Resolve(serial,pair.staff)||!Resolve(serial,pair.melee[0])||!Resolve(serial,pair.melee[1]))continue;
-        if(!Resolve(serial,pair.left)){pair.left={};pair.restoreLeft=0;}
+        if(pair.variant>1||pairs.size()>=64||!Resolve(serial,pair.staff)||!Resolve(serial,pair.mace))continue;
+        pair.reservedMelee={};pair.reservedLeft={};pair.reservedFlags=0;
         pairs.push_back(pair);
     }
     SKSE::log::info("Transformation loaded {} tracked staff pairs",pairs.size());
 }
 }
-void Abort(){if(gripState)gripState->value=0;change={};legacyAttempted=false;}
+void Abort(){if(gripState)gripState->value=0;change={};}
 void NewGame(){Abort();pairs.clear();}
 void InstallSerialization(){
     auto* serial=SKSE::GetSerializationInterface();serial->SetUniqueID(0x41535446);
@@ -123,12 +102,12 @@ void Initialize(){
     auto* data=RE::TESDataHandler::GetSingleton();
     for(int i=0;i<2;++i){
         staves[i]=data->LookupForm<RE::TESObjectWEAP>(i?0x820:0x800,"AstralSigil.esp");
-        for(int j=0;j<2;++j)melee[i][j]=data->LookupForm<RE::TESObjectWEAP>(0x940+i*2+j,"AstralSigil.esp");
+        maces[i]=data->LookupForm<RE::TESObjectWEAP>(0x940+i*2,"AstralSigil.esp");
     }
     key=data->LookupForm<RE::TESGlobal>(0x944,"AstralSigil.esp");gripState=data->LookupForm<RE::TESGlobal>(0x945,"AstralSigil.esp");
-    rightSlot=RE::TESForm::LookupByID<RE::BGSEquipSlot>(0x13f42);leftSlot=RE::TESForm::LookupByID<RE::BGSEquipSlot>(0x13f43);
-    if(!key||!rightSlot||!leftSlot||!melee[0][0]||!melee[0][1]||!melee[1][0]||!melee[1][1])return;
-    RE::BSInputDeviceManager::GetSingleton()->AddEventSink(&input);RE::ScriptEventSourceHolder::GetSingleton()->AddEventSink(&equipment);
+    rightSlot=RE::TESForm::LookupByID<RE::BGSEquipSlot>(0x13f42);
+    if(!key||!rightSlot||!staves[0]||!staves[1]||!maces[0]||!maces[1])return;
+    RE::BSInputDeviceManager::GetSingleton()->AddEventSink(&input);
     SKSE::log::info("Transformation ready: G default; staff / one-handed mace");
 }
 void Request(){
@@ -137,46 +116,40 @@ void Request(){
     if(!key||change.phase!=Phase::Idle||now-lastRequest<std::chrono::milliseconds(500)||Menu()||Busy(player))return;
     auto* current=player->GetEquippedObject(false);if(!current){SKSE::log::info("Transformation ignored: empty right hand");return;}
     auto ws=player->AsActorState()->GetWeaponState();
-    bool legacy=current==melee[0][1]||current==melee[1][1];
-    if(ws!=RE::WEAPON_STATE::kDrawn&&!(legacy&&ws==RE::WEAPON_STATE::kSheathed)){SKSE::log::info("Transformation ignored: weapon not drawn");return;}
+    if(ws!=RE::WEAPON_STATE::kDrawn){SKSE::log::info("Transformation ignored: weapon not drawn");return;}
     int variant=current==staves[0]?0:current==staves[1]?1:-1;
     bool returning=variant<0;
-    if(returning&&current!=melee[0][0]&&current!=melee[0][1]&&current!=melee[1][0]&&current!=melee[1][1])return;
+    if(returning&&current!=maces[0]&&current!=maces[1])return;
     Item source=Equipped(player,false);if(!source.form)return;
     std::size_t index=pairs.size();
-    for(std::size_t i=0;i<pairs.size();++i)if(returning?(pairs[i].melee[0]==source||pairs[i].melee[1]==source):pairs[i].staff==source){index=i;break;}
+    for(std::size_t i=0;i<pairs.size();++i)if(returning?pairs[i].mace==source:pairs[i].staff==source){index=i;break;}
     if(returning&&index==pairs.size())return;
     if(index==pairs.size()){
         if(pairs.size()>=64)return;
         Pair pair{};pair.staff=source;pair.variant=variant;pairs.push_back(pair);
     }
-    auto& pair=pairs[index];const int selected=0;
-    if(!returning&&!pair.melee[selected].form){
-        auto* object=melee[pair.variant][selected];
+    auto& pair=pairs[index];
+    if(!returning&&!pair.mace.form){
+        auto* object=maces[pair.variant];
         // Cross-runtime headers expose an opaque ExtraDataList; allocate the
         // largest supported native layout before calling the native constructor.
         auto* memory=RE::malloc<RE::ExtraDataList>(0x20);
         if(!memory)return;
         auto* list=std::construct_at(memory);
         Item created=Identify(player,object,list);if(!created.form){delete list;return;}
-        player->AddObjectToContainer(object,list,1,nullptr);pair.melee[selected]=created;
+        player->AddObjectToContainer(object,list,1,nullptr);pair.mace=created;
     }
-    Item target=returning?pair.staff:pair.melee[selected];
+    Item target=returning?pair.staff:pair.mace;
     if(!Find(player,target)){SKSE::log::warn("The linked weapon is not in the player inventory");RE::SendHUDMessage::ShowHUDMessage("The linked weapon is not in your inventory.");return;}
-    if(!returning){pair.left=Equipped(player,true);pair.restoreLeft=selected==1&&pair.left.form;}
     if(gripState)gripState->value=ws==RE::WEAPON_STATE::kDrawn?2.f:0.f;
     lastRequest=now;change={Phase::Equip,source,target,index,returning,ws==RE::WEAPON_STATE::kDrawn,now+std::chrono::seconds(8)};
     auto* left=player->GetEquippedObject(true);change.leftForm=left?left->GetFormID():0;
-    SKSE::log::info("Transformation begin {:08X} -> {:08X}, left={:08X}",source.form,target.form,pair.left.form);
+    SKSE::log::info("Transformation begin {:08X} -> {:08X}, left={:08X}",source.form,target.form,change.leftForm);
     auto* object=RE::TESForm::LookupByID<RE::TESBoundObject>(target.form);
     RE::ActorEquipManager::GetSingleton()->EquipObject(player,object,Find(player,target),1,rightSlot,true,false,false);
 }
 void Tick(){
-    if(change.phase==Phase::Idle){
-        auto* p=RE::PlayerCharacter::GetSingleton();auto* held=p?p->GetEquippedObject(false):nullptr;
-        if(!legacyAttempted&&!Menu()&&!Busy(p)){legacyAttempted=true;if(held&&(held==melee[0][1]||held==melee[1][1]))Request();}
-        return;
-    }
+    if(change.phase==Phase::Idle)return;
     auto* player=RE::PlayerCharacter::GetSingleton();
     if(Menu()||Busy(player)||Clock::now()>change.deadline||change.pair>=pairs.size()){Fail("unsafe state or timeout");return;}
     auto ws=player->AsActorState()->GetWeaponState();
@@ -184,11 +157,10 @@ void Tick(){
     auto* left=player->GetEquippedObject(true);
     if((left?left->GetFormID():0)!=change.leftForm){Fail("left-hand equipment changed");return;}
     auto* source=RE::TESForm::LookupByID(change.source.form);auto* target=RE::TESForm::LookupByID<RE::TESBoundObject>(change.target.form);
-    auto* current=player->GetEquippedObject(false);auto& pair=pairs[change.pair];
+    auto* current=player->GetEquippedObject(false);
     if(current!=source&&current!=target){Fail("equipment changed");return;}
     if(change.phase==Phase::Equip){
         if(current!=target)return;
-        if(change.returning){RestoreLeft(player,pair);auto* restored=player->GetEquippedObject(true);change.leftForm=restored?restored->GetFormID():0;}
         change.phase=Phase::Catch;
         if(gripState)gripState->value=change.drawn?2.f:0.f;
     }else if(change.phase==Phase::Catch){
