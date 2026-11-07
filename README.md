@@ -1,6 +1,6 @@
 # Astral Sigil native modules
 
-C++ source for AstralSigilPortal.dll and AstralSigilSettings.dll, shipped with Astral Sigil 2.4.5. Requires Windows x64, Visual Studio 2022 C++ tools, a Windows SDK, Git and CMake 3.24+. CMake fetches pinned source dependencies; bundled corresponding-source archives also build offline.
+C++ source for AstralSigilPortal.dll and AstralSigilSettings.dll, shipped with Astral Sigil 1.0.0. Requires Windows x64, Visual Studio 2022 C++ tools, a Windows SDK, Git and CMake 3.24+. CMake fetches pinned source dependencies; bundled corresponding-source archives also build offline.
 
 ```powershell
 cmake -S . -B build -A x64
