@@ -354,7 +354,7 @@ void Message(SKSE::MessagingInterface::Message* m){
         gripTransition=d->LookupForm<RE::TESGlobal>(0x945,"AstralSigil.esp");
         SKSE::log::info("Mace portal forms ready={},{}",maces[0]!=nullptr,maces[1]!=nullptr);
         armed=weapons[0]&&weapons[1]&&REX::W32::GetModuleHandleW(L"OpenAnimationReplacer.dll");
-        SKSE::log::info("Handoff05 enabled={}",armed.load());
+        SKSE::log::info("Portal enabled={}",armed.load());
         if(armed)std::thread([]{for(;;){std::this_thread::sleep_for(std::chrono::milliseconds(16));if(armed&&!pending.exchange(true))SKSE::GetTaskInterface()->AddTask(Tick);}}).detach();
     }else if(m->type==M::kPreLoadGame || m->type==M::kNewGame || m->type==M::kPostLoadGame){Reset();staffSizes={};wasGripTransition=false;markers=0;variant=lastWeaponState=-1;registeredRoot=nullptr;previousTick=Clock::now();}
 }
@@ -362,7 +362,7 @@ void Message(SKSE::MessagingInterface::Message* m){
 #ifdef ASTRAL_SIGIL_MULTI_RUNTIME
 extern "C" __declspec(dllexport) constinit SKSE::PluginVersionData SKSEPlugin_Version = [] {
     SKSE::PluginVersionData data;
-    data.PluginVersion(REL::Version(2,4,2,0));
+    data.PluginVersion(REL::Version(1,0,0,0));
     data.PluginName("AstralSigilPortal");
     data.UsesAddressLibrary();
     data.UsesUpdatedStructs();
@@ -374,9 +374,9 @@ extern "C" __declspec(dllexport) constinit SKSE::PluginVersionData SKSEPlugin_Ve
 }();
 #endif
 extern "C" __declspec(dllexport) bool SKSEPlugin_Query(const SKSE::QueryInterface* skse,SKSE::PluginInfo* info){
-    info->infoVersion=SKSE::PluginInfo::kVersion;info->name="AstralSigilPortal";info->version=20402;
+    info->infoVersion=SKSE::PluginInfo::kVersion;info->name="AstralSigilPortal";info->version=10000;
 #ifdef ASTRAL_SIGIL_MULTI_RUNTIME
-    info->version=20402;
+    info->version=10000;
     const auto v=skse->RuntimeVersion();
     return !skse->IsEditor()&&Portal::Runtime::Accepts({v[0],v[1],v[2],v[3]});
 #else
@@ -394,9 +394,9 @@ extern "C" __declspec(dllexport) bool SKSEPlugin_Load(const SKSE::LoadInterface*
         spdlog::set_default_logger(std::make_shared<spdlog::logger>("AstralSigilPortal",fileSink));spdlog::flush_on(spdlog::level::info);
     }
 #ifdef ASTRAL_SIGIL_MULTI_RUNTIME
-    SKSE::log::info("Portal 2.4.2: runtime {}.{}.{}.{}; SE/AE relocations and dynamic layouts; runtime validation policy applies",v[0],v[1],v[2],v[3]);
+    SKSE::log::info("Portal 1.0.0: runtime {}.{}.{}.{}; SE/AE relocations and dynamic layouts; runtime validation policy applies",v[0],v[1],v[2],v[3]);
 #else
-    SKSE::log::info("Portal 2.4.2: native equipped model after portal transit; casting frame correction retained, SE 1.5.97");
+    SKSE::log::info("Portal 1.0.0: native equipped model after portal transit; casting frame correction retained, SE 1.5.97");
 #endif
     return SKSE::GetMessagingInterface()->RegisterListener(Message);
 }
