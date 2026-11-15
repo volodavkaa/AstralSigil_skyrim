@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='utf-8'?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://qconsulting.ca/fo3/ModConfig5.0.xsd">
+  <moduleName>Astral Sigil</moduleName>
+  <requiredInstallFiles>
+    <folder source="00 Common" destination="" priority="0" />
+  </requiredInstallFiles>
+  <installSteps order="Explicit">
+    <installStep name="Edition">
+      <optionalFileGroups order="Explicit">
+        <group name="Edition" type="SelectExactlyOne">
+          <plugins order="Explicit">
+            <plugin name="Full">
+              <description>Complete edition with elemental staves, rune-circle effects, aimed third-person casting, portal draw/return, staff/mace transformation, discovery journal and 14 MCM settings with individual help. Requires SkyUI, SKSE64, Address Library and Open Animation Replacer.</description>
+              <files>
+                <folder source="12 Full Data" destination="" priority="1" />
+              </files>
+              <conditionFlags>
+                <flag name="ASEdition">Full</flag>
+              </conditionFlags>
+              <typeDescriptor>
+                <dependencyType>
+                  <defaultType name="NotUsable" />
+                  <patterns>
+                    <pattern>
+                      <dependencies operator="And">
+                        <fileDependency file="SkyUI_SE.esp" state="Active" />
+                      </dependencies>
+                      <type name="Recommended" />
+                    </pattern>
+                  </patterns>
+                </dependencyType>
+              </typeDescriptor>
+            </plugin>
+            <plugin name="Lite">
+              <description>Elemental staves, casting and impact effects, discovery and quest journal in one ESL-flagged ESP. Uses your installed casting animations. Runs without SKSE, SkyUI or OAR. Portals, transformation, aimed-pose overrides and MCM are Full features.</description>
+              <files>
+                <folder source="10 Lite" destination="" priority="1" />
+              </files>
+              <conditionFlags>
+                <flag name="ASEdition">Lite</flag>
+              </conditionFlags>
+              <typeDescriptor>
+                <type name="Optional" />
+              </typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
+    <installStep name="Full runtime">
+      <visible operator="And">
+        <flagDependency flag="ASEdition" value="Full" />
+      </visible>
+      <optionalFileGroups order="Explicit">
+        <group name="Full runtime" type="SelectExactlyOne">
+          <plugins order="Explicit">
+            <plugin name="SE 1.5.97">
+              <description>For Skyrim Special Edition 1.5.97 on Steam. Requires SKSE64 2.0.20, Address Library SE, SkyUI and Open Animation Replacer. Select this option when your SkyrimSE.exe version is 1.5.97.</description>
+              <files>
+                <folder source="20 Full" destination="" priority="1" />
+              </files>
+              <typeDescriptor>
+                <type name="Optional" />
+              </typeDescriptor>
+            </plugin>
+            <plugin name="SE / AE">
+              <description>Multi-runtime edition for the Steam and GOG versions listed in runtime-policy.json. Requires SKSE64 and Address Library matching your game version, plus SkyUI and Open Animation Replacer. Select the option that matches your SkyrimSE.exe.</description>
+              <files>
+                <folder source="21 Full AE" destination="" priority="1" />
+              </files>
+              <typeDescriptor>
+                <type name="Optional" />
+              </typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
+    <installStep name="Texture resolution">
+      <optionalFileGroups order="Explicit">
+        <group name="Texture resolution" type="SelectExactlyOne">
+          <plugins order="Explicit">
+            <plugin name="2K">
+              <description>2048-pixel staff and elemental rune textures.</description>
+              <files>
+                <folder source="40 Textures 2K" destination="" priority="1" />
+              </files>
+              <typeDescriptor>
+                <type name="Recommended" />
+              </typeDescriptor>
+            </plugin>
+            <plugin name="4K">
+              <description>4096-pixel staff and elemental rune textures. Higher VRAM use.</description>
+              <files>
+                <folder source="50 Textures 4K" destination="" priority="1" />
+              </files>
+              <typeDescriptor>
+                <type name="Optional" />
+              </typeDescriptor>
+            </plugin>
+          </plugins>
+        </group>
+      </optionalFileGroups>
+    </installStep>
+  </installSteps>
+</config>

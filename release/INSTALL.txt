@@ -1,0 +1,32 @@
+Astral Sigil 1.0.0
+
+INSTALLATION
+Install this archive through your mod manager and choose Full or Lite, a runtime option for Full, and 2K or 4K textures. Enable AstralSigil.esp.
+When replacing an earlier installation, replace its mod folder rather than merging files. Disable separate casting comparison or MCM update packages; their changes are included here. Restart Skyrim, load your character and open MCM after upgrading.
+
+FULL
+Requires SkyUI, SKSE64, Address Library and Open Animation Replacer. Use dependency versions matching your SkyrimSE.exe and storefront. MCM Helper is not required.
+Includes aimed third-person casting poses for the player using Stormheart or Cinderfang in the right hand while standing or walking without a left-hand staff. Other casting configurations use your installed animation setup.
+G switches the drawn staff and one-handed mace; this key is configurable in MCM. R draws or puts away either form through a portal. The left hand remains independent.
+MCM provides 5 sliders, 8 toggles and a keyboard binding, each with a description. Settings are saved with your character.
+
+LITE
+Includes staves, casting and impact effects, discovery and the quest journal. Uses your installed casting animations. Does not require SKSE, SkyUI or OAR. Portals, transformation, aimed-pose overrides and MCM are Full features.
+
+GAME VERSION
+SE 1.5.97 option: Steam Skyrim Special Edition 1.5.97, SKSE64 2.0.20 and Address Library SE.
+SE / AE option: the exact Steam/GOG versions listed in runtime-policy.json, with matching SKSE64 and Address Library.
+Select the runtime option using your SkyrimSE.exe version. The installer does not detect the executable version automatically.
+The native Full modules target Steam/GOG Skyrim Special Edition. LE, VR, Epic Games Store and Game Pass are not supported by the Full modules.
+
+GAMEPLAY
+Both staves charge for four seconds, can be held ready, and fire when the casting button is released after charging. Releasing early cancels the cast.
+Stormheart briefly freezes the directly struck target; native paralysis immunity and frost resistance apply. Area damage is separate from this freeze.
+MCM ground-effect lifetime controls new ground flames and ice. Decal lifetime follows Skyrim and any installed decal settings.
+Enchanted item values before barter modifiers: Stormheart 2000 gold; Cinderfang 3000 gold.
+
+UPGRADING FROM SPLIT-PLUGIN PACKAGES
+Use only AstralSigil.esp. Remove the old AstralSigil_MCM.esp and AstralSigil_Legacy.esp. For characters using those old auxiliary plugins, use a new game or a save from before they were installed.
+
+LICENSES AND SOURCE
+Required native license notices are included in LICENSES.txt for Full. Corresponding source and dependency licenses are provided in AstralSigil-1.0.0-Source.zip.

@@ -1,0 +1,35 @@
+{
+  "source_archive": "Skyrim - Animations.bsa",
+  "clips": [
+    {
+      "file": "stfmagicright_chargeloop.hkx",
+      "source": "meshes/actors/character/animations/stfmagicright_chargeloop.hkx",
+      "destination": "release/payload/12 Full Data/meshes/actors/character/animations/OpenAnimationReplacer/Astral Sigil - Aimed Casting/Right hand/stfmagicright_chargeloop.hkx",
+      "sha256": "9664a2d0a7519fae14c6f58b5761ff31a81b54996baa1adacf766171e4cd9286"
+    },
+    {
+      "file": "stfmagicright_precharge.hkx",
+      "source": "meshes/actors/character/animations/stfmagicright_precharge.hkx",
+      "destination": "release/payload/12 Full Data/meshes/actors/character/animations/OpenAnimationReplacer/Astral Sigil - Aimed Casting/Right hand/stfmagicright_precharge.hkx",
+      "sha256": "d20021edbe372e9f83d969633f40010a5e91978afb108550cef3a3e3f870ac64"
+    },
+    {
+      "file": "stfmagicright_preready.hkx",
+      "source": "meshes/actors/character/animations/stfmagicright_preready.hkx",
+      "destination": "release/payload/12 Full Data/meshes/actors/character/animations/OpenAnimationReplacer/Astral Sigil - Aimed Casting/Right hand/stfmagicright_preready.hkx",
+      "sha256": "cde24408e0eff1b7e7c1c07f9e1baa063e690fbc466bb6cf7e52440b51df5dc0"
+    },
+    {
+      "file": "stfmagicright_readyloop.hkx",
+      "source": "meshes/actors/character/animations/stfmagicright_readyloop.hkx",
+      "destination": "release/payload/12 Full Data/meshes/actors/character/animations/OpenAnimationReplacer/Astral Sigil - Aimed Casting/Right hand/stfmagicright_readyloop.hkx",
+      "sha256": "1247dab1c13a6bf77078b83fd917112febc0aa6b6a43956d5c1251fc8dc33c7d"
+    },
+    {
+      "file": "stfmagicright_release.hkx",
+      "source": "meshes/actors/character/animations/stfmagicright_release.hkx",
+      "destination": "release/payload/12 Full Data/meshes/actors/character/animations/OpenAnimationReplacer/Astral Sigil - Aimed Casting/Right hand/stfmagicright_release.hkx",
+      "sha256": "4269539b2fcf323e4fe1dabcd4c8b2a39aa637f63769526c76eca4187861b3aa"
+    }
+  ]
+}

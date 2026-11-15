@@ -1,0 +1,212 @@
+{
+  "version": "1.0.0",
+  "accepted": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    19,
+    24
+  ],
+  "declined": [
+    11,
+    20,
+    21,
+    22,
+    27,
+    28,
+    29,
+    30
+  ],
+  "configuration": "Full: embedded SkyUI MCM; Lite: no MCM/SKSE; one ESL-flagged AstralSigil.esp per edition",
+  "settings": [
+    {
+      "key": "Brightness",
+      "label": "Magic effect brightness",
+      "page": "Visuals",
+      "default": 1,
+      "min": 0.25,
+      "max": 2,
+      "step": 0.05,
+      "form_id": 2049,
+      "description": "Scales the glow of casting effects, projectiles and tracked impact/ground effects. Default: 1.0. Does not change scene lighting or the staff metal."
+    },
+    {
+      "key": "FirstPersonScale",
+      "label": "First-person casting size",
+      "page": "Visuals",
+      "default": 0.8,
+      "min": 0.5,
+      "max": 1.2,
+      "step": 0.05,
+      "form_id": 2050,
+      "description": "Scales the rune circle and held spear in first person only. Default: 0.8. Does not resize the staff, third-person effect or flying projectile."
+    },
+    {
+      "key": "CoreBrightness",
+      "label": "Casting core and seal glow",
+      "page": "Visuals",
+      "default": 0.45,
+      "min": 0.1,
+      "max": 1,
+      "step": 0.05,
+      "form_id": 2051,
+      "description": "Adjusts the central light core and central seal of the casting circle. Default: 0.45. Multiplies Magic effect brightness; does not control the entire spear or staff crystal."
+    },
+    {
+      "key": "ReadyPulse",
+      "label": "Ready-state rune size pulse",
+      "page": "Casting",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2052,
+      "description": "Adds a subtle size pulse to the rune circle while holding a fully charged cast after four seconds. Does not disable glow pulses built into the effect."
+    },
+    {
+      "key": "AssemblySnap",
+      "label": "Final spear compression",
+      "page": "Casting",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2053,
+      "description": "Adds a brief 12 percent compression of the held spear near the end of the four-second charge. Does not disable crystal assembly or change charge time."
+    },
+    {
+      "key": "Recoil",
+      "label": "Rune-circle kickback",
+      "page": "Casting",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2054,
+      "description": "Adds a short backward movement of the rune circle when a shot is released. Does not change character recoil, projectile direction or damage."
+    },
+    {
+      "key": "CancelScatter",
+      "label": "Crystal scatter on cancellation",
+      "page": "Casting",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2055,
+      "mcm_visible": false,
+      "description": "Retired control: partial material-sharing conflict on Cinderfang. Restored to the enabled visual default during menu initialization/update."
+    },
+    {
+      "key": "FlightMotes",
+      "label": "Embers and ice fragments in flight",
+      "page": "Projectile",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2058,
+      "mcm_visible": false,
+      "description": "Retired control: partial material-sharing conflict on Cinderfang. Restored to the enabled visual default during menu initialization/update."
+    },
+    {
+      "key": "BrokenRings",
+      "label": "Broken tracer arcs",
+      "page": "Projectile",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2059,
+      "description": "ON shows gaps in the tracer rings around the flying projectile. OFF lights the gap pieces for fuller rings. Does not disable all tracer rings."
+    },
+    {
+      "key": "ImpactEmbers",
+      "label": "Embers at fire impact",
+      "page": "Ground effects",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2060,
+      "description": "Shows small embers in Cinderfang's impact burst. Does not control the flying projectile, ground fire or impact damage."
+    },
+    {
+      "key": "IceCrystals",
+      "label": "Ground ice crystals",
+      "page": "Ground effects",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2061,
+      "description": "Shows the growing crystals in Stormheart's ground residue. Does not control the held spear or crystals on the flying projectile."
+    },
+    {
+      "key": "ResidueDuration",
+      "label": "New ground effect lifetime",
+      "page": "Ground effects",
+      "default": 5,
+      "min": 3,
+      "max": 8,
+      "step": 1,
+      "form_id": 2062,
+      "description": "Lifetime of newly created fire and ice ground effects: 3-8 seconds; default 5. Existing effects keep their own lifetime. Does not change scorch decals or explosion duration."
+    },
+    {
+      "key": "IceSound",
+      "label": "Ice crackle on new ground effects",
+      "page": "Ground effects",
+      "default": 1,
+      "type": "toggle",
+      "form_id": 2065,
+      "description": "Enables crackling sound on newly created ice ground effects. Changing this does not stop a loop already playing on an existing effect."
+    },
+    {
+      "key": "FireDamage",
+      "label": "Ground fire deals damage",
+      "page": "Combat",
+      "default": 0,
+      "type": "toggle",
+      "form_id": 2066,
+      "description": "Adds approximately one damage application per second to hostile living enemies near Cinderfang's ground fire. Excludes the player and companions; overlapping patches do not stack this extra hit. OFF by default."
+    },
+    {
+      "key": "FireDamageAmount",
+      "label": "Ground fire damage per tick",
+      "page": "Combat",
+      "default": 3,
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "form_id": 2067,
+      "description": "Base damage for each ground-fire tick, approximately once per second. Only used when Ground fire deals damage is ON. Default: 3. Actual damage depends on game effect processing and resistances."
+    },
+    {
+      "key": "TransformKey",
+      "label": "Transform weapon",
+      "page": "Transformation",
+      "type": "keymap",
+      "default": 34,
+      "min": 0,
+      "max": 255,
+      "step": 1,
+      "form_id": 2084,
+      "description": "Keyboard key for switching a drawn Stormheart or Cinderfang between staff and mace. Default: G. Unmap to disable. Unavailable while casting, attacking, in menus or other blocked states."
+    }
+  ],
+  "removed": [
+    10,
+    18,
+    23,
+    25,
+    26
+  ],
+  "unified_layout": {
+    "journal_quest": 2304,
+    "mcm_quest": 2336,
+    "settings_form_offset": 288,
+    "setting_form_ids_below_are_legacy_source_ids": true
+  },
+  "mcm_version": 7,
+  "retired_mcm_controls": [
+    "CancelScatter",
+    "FlightMotes"
+  ]
+}

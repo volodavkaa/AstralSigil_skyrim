@@ -91,7 +91,6 @@
       0
     ]
   ],
-  "gameplay_acceptance": "SE 1.5.97 tested; gameplay on other listed runtimes remains unverified",
   "dependencies": {
     "commonlibsse-ng-multiruntime": {
       "commit": "cce63b4c8aacd2766c21f44b408df92a3ad9e95c",

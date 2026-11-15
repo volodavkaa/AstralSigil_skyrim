@@ -1,0 +1,56 @@
+{
+  "name": "Right-hand aimed fire-and-forget",
+  "priority": 22000160,
+  "conditions": [
+    {
+      "condition": "IsActorBase",
+      "requiredVersion": "1.0.0.0",
+      "Actor base": {
+        "pluginName": "Skyrim.esm",
+        "formID": "0x7"
+      }
+    },
+    {
+      "condition": "IsWeaponDrawn",
+      "requiredVersion": "1.0.0.0"
+    },
+    {
+      "condition": "IsSneaking",
+      "requiredVersion": "1.0.0.0",
+      "negated": true
+    },
+    {
+      "condition": "IsEquippedType",
+      "requiredVersion": "1.0.0.0",
+      "Type": {
+        "value": 8
+      },
+      "Left hand": true,
+      "negated": true
+    },
+    {
+      "condition": "OR",
+      "requiredVersion": "1.0.0.0",
+      "Conditions": [
+        {
+          "condition": "IsEquipped",
+          "requiredVersion": "1.0.0.0",
+          "Form": {
+            "pluginName": "AstralSigil.esp",
+            "formID": "0x800"
+          },
+          "Left hand": false
+        },
+        {
+          "condition": "IsEquipped",
+          "requiredVersion": "1.0.0.0",
+          "Form": {
+            "pluginName": "AstralSigil.esp",
+            "formID": "0x820"
+          },
+          "Left hand": false
+        }
+      ]
+    }
+  ]
+}
