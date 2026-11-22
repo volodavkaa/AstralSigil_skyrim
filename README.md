@@ -32,6 +32,8 @@ Full uses five vanilla aimed right-hand staff clips. `config/aimed-casting-clips
 
 The scope is the player with right-hand Stormheart/Cinderfang, weapon drawn, standing/walking and no left-hand staff. First-person, sneak and dual-staff casting use the existing animation setup. Four-second charge, held readiness and release-to-fire retain their existing mechanics.
 
-`release/fomod` and `release/INSTALL.txt` contain installer text and instructions. Game assets, compiled binaries and the complete FOMOD are distributed separately. Full requires SKSE64, Address Library, SkyUI and Open Animation Replacer; Lite has no native modules or MCM.
+`release/fomod` contains the installer configuration and finished option cards. `release/INSTALL.txt` contains installation instructions. Game assets, compiled binaries and the complete FOMOD are distributed separately. Full requires SKSE64, Address Library, SkyUI and Open Animation Replacer. Lite has no native modules or MCM.
+
+The artwork tools under `tools` run in the full development workspace. The Blender 5.2 renderer needs PyNifly, the release staff meshes and the original Dragon Nest Staff PNG atlases passed with `--texture-source`. Run `python tools/prepare_nexus_staves.py --installer-only` with Pillow and the workspace font assets to lay out the rendered cards. The release packager puts the finished cards under `fomod/images` in the ZIP.
 
 License terms are in LICENSE, EXCEPTIONS.md and THIRD-PARTY-NOTICES.txt.
